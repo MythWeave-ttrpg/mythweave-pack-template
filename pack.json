@@ -1,0 +1,10 @@
+{
+  "id": "my-pack",
+  "title": "My Pack",
+  "version": "0.0.0",
+  "author": "Your name",
+  "license": "REPLACE-WITH-SPDX-ID",
+  "system": "dnd5e",
+  "appVersion": ">=0.1",
+  "dependencies": []
+}

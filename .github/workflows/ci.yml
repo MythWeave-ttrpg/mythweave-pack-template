@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: pack.json is valid JSON with the required fields
+        run: |
+          jq empty pack.json
+          jq -e '.id and .title and .version and .author and .license and .system and .appVersion and (.dependencies | type == "array")' pack.json > /dev/null
+
+      # Changelog validation arrives with the shared MythWeave tooling.
+
+      - name: Dry-run package (does not publish anything)
+        run: |
+          chmod +x scripts/package.sh
+          scripts/package.sh
+
+      - name: Upload build artifact for inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: pack-zip-preview
+          path: "*.zip"
